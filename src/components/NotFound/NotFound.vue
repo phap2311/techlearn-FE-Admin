@@ -8,7 +8,7 @@
           </div>
           <div class="contant_box_404">
             <h2>Page not found!</h2>
-            <router-link :to="{ name: 'Table' }" class="link_404"
+            <router-link :to="{ name: 'CoursePage' }" class="link_404"
               >Go to Home</router-link
             >
           </div>
