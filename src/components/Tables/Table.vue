@@ -19,7 +19,7 @@
             </th>
           </tr>
         </thead>
-        <draggable
+        <draggable 
           tag="tbody"
           v-if="isDraggable"
           :list="props.data"

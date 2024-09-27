@@ -26,7 +26,7 @@
         <input type="url" class="form-control" id="courseImageUrl" v-model="course.thumbnailUrl" />
       </div>
       <div class="mb-3">
-        <label for="courseTechStacks" class="form-label">Techstacks</label>
+        <label for="courseTechStacks" class="form-label">Công nghệ</label>
         <Multiselect
         v-model="course.techStack"
         :options="techStack.data"
@@ -34,7 +34,9 @@
         :multiple="true"
         :taggable="true"
         @tag="addTag"
-        @remove="removeTag"/>
+        @remove="removeTag"
+        placeholder="Chọn công nghệ"
+        />
       </div>
       <div class="mb-3">
         <label for="supporter" class="form-label">Giảng viên</label>
@@ -47,6 +49,7 @@
           :taggable="true"
           @tag="addTeacher"
           @remove="removeTeacher"
+          placeholder="Chọn người hỗ trợ"
         />
       </div>
       <div class="d-flex justify-content-between mb-3">
@@ -58,14 +61,14 @@
           </select>
         </div>
         <div class="ms-2 flex-grow-1">
-          <label for="coursePublicity" class="form-label">Công khai</label>
+          <label for="coursePublicity" class="form-label">Trạng thái</label>
           <select class="form-select" id="coursePublicity" v-model="course.isPublic">
             <option value=false>Riêng tư</option>
             <option value=true>Công khai</option>
           </select>
         </div>
         <div class="ms-2 flex-grow-1">
-          <label for="coursePublicity" class="form-label">Lượt hổ trợ</label>
+          <label for="coursePublicity" class="form-label">Lượt hỗ trợ</label>
           <input type="number" class="form-control" v-model="course.point"/>
         </div>
       </div>
@@ -106,7 +109,7 @@ export default {
       teacher: [],
       isActive: true,
       isPublic: true,
-      point: 100,
+      point: 30,
     });
 
     const techStack = reactive({

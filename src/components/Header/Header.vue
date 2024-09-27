@@ -18,9 +18,9 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <router-link class="nav-link" href="#">
-              <i class="fas fa-sign-out-alt"></i> Đăng xuất
-            </router-link>
+              <router-link class="nav-link" href="#">
+                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+              </router-link>
           </li>
         </ul>
       </div>
