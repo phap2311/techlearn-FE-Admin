@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex mt-3 justify-content-between align-items-center chapter-header">
-        <router-link :to="{ path: '/lessons', query: { idChapter: idChapter, idCourse: idCourse } }" class="text-decoration-none">
-            <!-- http://localhost:8080/lessons?idChapter=1&idCourse=1 -->
+        <router-link :to="{ path: '/lessons', query: { idChapter: idChapter, idCourse: idCourse } }"
+            class="text-decoration-none">
             <div class="d-flex align-items-center gap-2">
                 <i class="fa-solid fa-arrow-left text-dark"></i>
                 <p class="mb-0 text-dark">Danh sách bài học</p>
@@ -9,10 +9,16 @@
         </router-link>
     </div>
     <hr class="border border-grey border-1 opacity-50">
-    <h5 class="mt-4 title-sort" style="margin-left: 30px">Sắp xếp danh sách bài học</h5>
-    <Table :header="header" :data="data.assignments" :keys="keys" :actions="actions" :isDraggable="true"
-        @updateOrder="handleDragUpdate" :viewPublic="false"></Table>
-    <button class="d-flex mx-auto btn-save btn btn-warning mb-4" @click="saveOrder">Lưu thay đổi</button>
+    <div class="d-flex justify-content-center flex-column align-items-center">
+        <div class="d-flex justify-content-between w-100 px-4 align-items-center">
+            <h4 class="title-sort m-0" style="margin-left: 30px">Sắp xếp danh sách bài học</h4>
+            <button class="d-flex btn-save btn btn-warning align-self-end" @click="saveOrder">Lưu thay đổi</button>
+        </div>
+        <Table :header="header" :data="data.assignments" :keys="keys" :actions="actions" :isDraggable="true"
+            @updateOrder="handleDragUpdate" :viewPublic="false">
+        </Table>
+    </div>
+
 </template>
 <script setup>
 import Table from '@/components/Tables/Table.vue';
@@ -115,16 +121,4 @@ onMounted(async () => {
 
 </script>
 
-<style scoped>
-.title-sort {
-    margin-bottom: -35px;
-}
-
-.btn-save {
-    margin-top: -25px;
-}
-
-.chapter-header {
-    height: 37.6px;
-}
-</style>
+<style scoped></style>

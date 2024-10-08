@@ -8,11 +8,16 @@
         </router-link>
     </div>
     <hr class="border border-grey border-1 opacity-50">
-    <h5 class="mt-5 title-sort" style="margin-left: 30px">Sắp xếp danh sách chương</h5>
-    <Table :header="header" :data="data.chapter" :keys="keys" :actions="actions" :isDraggable="true"
-        @updateOrder="handleDragUpdate" :totalRows="totalRows" :perPage="perPage" @pageChange="handlePageChange">
-    </Table>
-    <button class="d-flex mx-auto btn-save btn btn-warning" @click="saveOrder">Lưu thay đổi</button>
+    <div class="d-flex justify-content-center flex-column align-items-center">
+        <div class="d-flex justify-content-between w-100 px-4 align-items-center">
+            <h4 class="title-sort m-0">Sắp xếp danh sách chương</h4>
+            <button class="d-flex btn-save btn btn-warning align-self-end" @click="saveOrder">Lưu thay
+                đổi</button>
+        </div>
+        <Table :header="header" :data="data.chapter" :keys="keys" :actions="actions" :isDraggable="true"
+            @updateOrder="handleDragUpdate">
+        </Table>
+    </div>
 </template>
 <script setup>
 import Table from '@/components/Tables/Table.vue';
@@ -34,7 +39,7 @@ const dataCourse = reactive({
     course: {}
 });
 
-const header = ["STT", "Tên chương", "Mức độ truy cập"];
+const header = ["STT", "Tên chương", "Trạng thái"];
 const keys = ["name"];
 
 function handleDragUpdate(updatedData) {
@@ -109,16 +114,4 @@ onMounted(async () => {
 
 </script>
 
-<style scoped>
-.title-sort {
-    margin-bottom: -35px;
-}
-
-.btn-save {
-    margin-top: -25px;
-}
-
-.chapter-header {
-    height: 37.6px;
-}
-</style>
+<style scoped></style>

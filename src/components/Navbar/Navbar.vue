@@ -16,6 +16,11 @@
             <i class="bi bi-house-door-fill"></i> Khoá học
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/user" class="nav-link" active-class="active" exact>
+            <i class="bi bi-house-door-fill"></i> Quản lý người dùng
+          </router-link>
+        </li>
       </ul>
     </div>
   </div>
