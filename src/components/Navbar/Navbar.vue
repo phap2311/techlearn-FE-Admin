@@ -6,22 +6,43 @@
         <span>Techlearn</span>
       </router-link>
       <ul class="nav flex-column">
-        <li class="nav-item">
-          <router-link to="/dashboard" class="nav-link" active-class="active" exact>
-            <i class="bi bi-house-door-fill"></i> Dashboard
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/" class="nav-link" active-class="active" exact>
+        <li class="nav-item" v-on:click="changeActive(1)">
+          <router-link
+            to="/"
+            :class="active == 1 ? 'nav-link active' : 'nav-link'"
+            exact
+          >
             <i class="bi bi-house-door-fill"></i> Khoá học
           </router-link>
         </li>
+        <li class="nav-item" v-on:click="changeActive(2)">
+          <router-link
+            to="/points"
+            :class="active == 2 ? 'nav-link active' : 'nav-link'"
+            exact
+          >
+            <i class="bi bi-house-door-fill"></i> Gói hỗ trợ
+          </router-link>
+        </li>
+        <li class="nav-item"  v-on:click="changeActive(3)">
+          <router-link to="/user" :class="active == 3 ? 'nav-link active' : 'nav-link'" exact>
+            <i class="bi bi-house-door-fill"></i> Quản lý tài khoản
+            </router-link>
+          </li>
       </ul>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+const active = ref(1);
+
+const changeActive = (value) => {
+  active.value = value;
+};
+</script>
 
 <style scoped>
 /* Sidebar styling */
@@ -32,9 +53,7 @@
   width: 280px;
   height: 100vh;
   padding: 20px;
-  background: linear-gradient(145deg,
-      #2c3e50,
-      #1a252f);
+  background: linear-gradient(145deg, #2c3e50, #1a252f);
   /* Gradient for modern effect */
   color: #ecf0f1;
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);

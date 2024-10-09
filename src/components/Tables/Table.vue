@@ -1,39 +1,27 @@
 <template>
-  <div
-    class="container-fluid my-5"
-    style="margin-left: 20px; margin-right: 20px"
-  >
-    <div
-      class="container-fluid my-5"
-      style="margin-left: 20px; margin-right: 20px"
-    >
-      <table class="table table-hover table-striped">
+  <div class="container-fluid">
+    <div class="container-fluid my-3 px-3">
+      
+      <table class="table table-hover table-striped w-100">
         <thead class="thead-lb">
           <tr>
-            <th
-              v-for="(header, index) in props.header"
-              :key="index"
-              :class="{ 'text-center': header === 'STT' }"
-            >
+            <th class="" v-for="(header, index) in props.header" :key="index"
+              :class="{ 
+                'd-none' : widthScreen<1000 && header ==='Giá tiền' ||  widthScreen<1000 && header ==='Đơn vị',
+                'text-center': header === 'STT', 'table-price': header === 'Giá tiền'
+               }"
+              >
               {{ header }}
             </th>
           </tr>
+          <!-- <tr v-if="widthScreen>700" ></tr> -->
         </thead>
-        <draggable 
-          tag="tbody"
-          v-if="isDraggable"
-          :list="props.data"
-          :disabled="!enabled"
-          ghost-class="ghost"
-          :move="checkMove"
-          @start="dragging = true"
-          @end="
-            (evt) => {
-              dragging = false;
-              emit('updateOrder', props.data);
-            }
-          "
-        >
+        <draggable tag="tbody" v-if="isDraggable" :list="props.data" :disabled="!enabled" ghost-class="ghost"
+          :move="checkMove" @start="dragging = true" @end="(evt) => {
+            dragging = false;
+            emit('updateOrder', props.data);
+          }
+            ">
           <template #item="{ element, index }">
             <tr :key="element.id" class="w-100 drag-item">
               <th scope="row" class="text-center">
@@ -54,28 +42,36 @@
               <th scope="row" class="text-center">
                 {{ (currentPage - 1) * props.perPage + index + 1 }}
               </th>
-              <td v-for="(key, keyIndex) in props.keys" :key="keyIndex">
-                {{ item[key] || "N/A" }}
+              <td v-for="(key, keyIndex) in props.keys" :key="keyIndex" :class="{ 'd-none' : widthScreen<1000 && key ==='price' ||  widthScreen<1000 && key ==='currencyUnit',  'table-price': key === 'price' }">
+                <template v-if="key === 'name'">
+                  <router-link :to="props.actions.view(item)" class="course-name-link">
+                    {{ item[key] || 'N/A' }}
+                  </router-link>
+                </template>
+                <template v-else-if="key !== 'avatar' && key !== 'roles'">
+                  {{ item[key] || "N/A" }}
+                </template>
+                <template  v-if="key === 'avatar'">
+                  <img v-if="item[key]" :src="item[key]" alt="Avatar" class="rounded img-fluid avatar-40" />
+                  <span v-else>N/A</span>
+                </template>
+                <template v-else-if="key === 'roles'">
+                  <span v-if="item[key] && item[key].length > 0">
+                    {{ item[key][0].name}}
+                  </span>
+                  <span v-else>N/A</span>
+                </template>
               </td>
               <td class="action-button">
-                <router-link
-                  v-if="viewDetail"
-                  :to="props.actions.view(item)"
-                  class="btn btn-primary btn-sm btn-action"
-                >
-                  <i class="fas fa-eye"></i>
-                </router-link>
-                <router-link
-                  :to="props.actions.edit(item)"
-                  class="btn btn-warning btn-sm btn-action"
-                >
+                <span v-if="!props.isUserPage">
+                  <router-link v-if="viewDetail" :to="props.actions.view(item)" class="btn btn-primary btn-sm btn-action">
+                    <i class="fas fa-eye"></i>
+                  </router-link>
+                </span>
+                <router-link :to="props.actions.edit(item)" class="btn btn-warning btn-sm btn-action">
                   <i class="fas fa-edit"></i>
                 </router-link>
-                <router-link
-                  to=""
-                  @click="confirmDelete(item)"
-                  class="btn btn-danger btn-sm btn-action"
-                >
+                <router-link to="" @click="confirmDelete(item)" class="btn btn-danger btn-sm btn-action">
                   <i class="fas fa-trash"></i>
                 </router-link>
               </td>
@@ -83,22 +79,14 @@
           </tbody>
         </template>
       </table>
-      <b-pagination
-        class="pagination"
-        v-model="currentPage"
-        :total-rows="totalRows"
-        :per-page="1"
-        aria-controls="my-table"
-        first-number
-        last-number
-        @change="pageChanged"
-      />
+      <b-pagination v-if="totalRows > 0" class="pagination" v-model="currentPage" :total-rows="totalRows" :per-page="1"
+        aria-controls="my-table" first-number last-number @change="pageChanged" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, onMounted, ref, watch } from "vue";
+import { defineProps, ref, watch } from "vue";
 import "@fortawesome/fontawesome-free/css/all.css";
 import draggable from "vuedraggable";
 
@@ -125,7 +113,7 @@ const props = defineProps({
   },
   totalRows: {
     type: Number,
-    required: true,
+    required: false,
   },
   perPage: {
     type: Number,
@@ -139,7 +127,19 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isUserPage: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+var widthScreen = ref(9999) ;
+
+window.addEventListener('resize', function() {
+     widthScreen.value = window.innerWidth || document.documentElement.clientWidth;
+  
+});
+
 
 const currentPage = ref(1);
 
@@ -162,6 +162,7 @@ watch(currentPage, (newPage) => {
 const pageChanged = () => {
   emit("pageChange", currentPage.value);
 };
+
 </script>
 
 <style scoped>
@@ -199,5 +200,21 @@ td {
 .pagination {
   display: flex;
   justify-content: center !important;
+}
+
+.table-price {
+  text-align: right;
+  padding-right: 50px;
+}
+
+.course-name-link {
+  color: #020202;
+  text-decoration: none;
+}
+
+.avatar-40 {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
 }
 </style>
